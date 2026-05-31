@@ -61,13 +61,13 @@ const categories = [
 const services = [
     // Streaming
     { id: 'netflix', name: 'Netflix', price: 15.49, color: '#e50914', billingDay: 15, category: 'streaming',
-      upcomingContent: [{ title: 'Stranger Things S5', date: 'Mar 2025', type: 'Series' }] },
+      upcomingContent: [{ title: 'Binge backlog', date: 'Winter', type: 'Plan' }] },
     { id: 'disney', name: 'Disney+', price: 13.99, color: '#113ccf', billingDay: 8, category: 'streaming',
-      upcomingContent: [{ title: 'Andor S2', date: 'Apr 2025', type: 'Series' }] },
+      upcomingContent: [{ title: 'Family movie month', date: 'Summer', type: 'Plan' }] },
     { id: 'hbo', name: 'Max', price: 15.99, color: '#b829dd', billingDay: 22, category: 'streaming',
-      upcomingContent: [{ title: 'The Last of Us S2', date: 'Apr 2025', type: 'Series' }] },
+      upcomingContent: [{ title: 'Prestige shows', date: 'Fall', type: 'Plan' }] },
     { id: 'prime', name: 'Prime Video', price: 8.99, color: '#00a8e1', billingDay: 1, category: 'streaming',
-      upcomingContent: [{ title: 'Fallout S2', date: 'Apr 2025', type: 'Series' }] },
+      upcomingContent: [{ title: 'Bundle value check', date: 'Always', type: 'Perk' }] },
 
     // Fitness
     { id: 'gym', name: 'Planet Fitness', price: 24.99, color: '#7b2d8e', billingDay: 1, category: 'fitness',
@@ -95,7 +95,7 @@ const services = [
     { id: 'adobe', name: 'Adobe CC', price: 54.99, color: '#ff0000', billingDay: 20, category: 'software',
       upcomingContent: [{ title: 'AI features', date: 'Quarterly', type: 'Update' }] },
     { id: 'chatgpt', name: 'ChatGPT Plus', price: 20.00, color: '#10a37f', billingDay: 3, category: 'software',
-      upcomingContent: [{ title: 'GPT-5', date: 'TBA', type: 'Model' }] },
+      upcomingContent: [{ title: 'AI work sprints', date: 'Quarterly', type: 'Plan' }] },
     { id: 'dropbox', name: 'Dropbox Plus', price: 11.99, color: '#0061ff', billingDay: 25, category: 'software',
       upcomingContent: [{ title: '2TB storage', date: 'Always', type: 'Perk' }] },
     { id: 'canva', name: 'Canva Pro', price: 12.99, color: '#00c4cc', billingDay: 8, category: 'software',
@@ -129,6 +129,35 @@ const services = [
 ];
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const storageKey = 'freezerburn:v2';
+const currentYear = new Date().getFullYear();
+const defaultMonthPlans = {
+    gym: [0, 1, 2, 3, 4, 5],
+    carwash: [3, 4, 5, 6, 7, 8],
+    hellofresh: [0, 1, 2, 9, 10, 11],
+    netflix: [0, 1, 10, 11],
+    disney: [2, 3, 6, 7],
+    hbo: [0, 1, 2, 8, 9],
+    prime: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    peloton: [0, 1, 2, 10, 11],
+    calm: [0, 1, 2, 9, 10, 11],
+    doordash: [5, 6, 7, 11],
+    instacart: [0, 1, 6, 7, 10, 11],
+    aaa: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    adobe: [0, 1, 2, 3, 4, 5],
+    chatgpt: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    dropbox: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    canva: [2, 3, 4, 8, 9, 10],
+    masterclass: [0, 1, 10, 11],
+    duolingo: [0, 1, 2, 3, 4],
+    nyt: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    gamepass: [0, 1, 5, 6, 7, 11],
+    psplus: [0, 1, 6, 7, 11],
+    athletic: [0, 1, 8, 9, 10, 11],
+    wsj: [0, 1, 2, 8, 9, 10, 11],
+    barkbox: [0, 2, 4, 6, 8, 10],
+    ipsy: [1, 3, 5, 7, 9, 11],
+};
 
 // State
 const state = {
@@ -139,32 +168,7 @@ const state = {
     activeCategory: 'all'
 };
 
-// Initialize subscriptions with sample data
-services.forEach(service => {
-    // Default some services to certain months based on seasonality
-    if (service.id === 'gym') {
-        state.subscriptions[service.id] = [0, 1, 2, 3, 4, 5]; // Jan-Jun
-    } else if (service.id === 'carwash') {
-        state.subscriptions[service.id] = [3, 4, 5, 6, 7, 8]; // Apr-Sep (nice weather)
-    } else if (service.id === 'hellofresh') {
-        state.subscriptions[service.id] = [0, 1, 2, 9, 10, 11]; // Cold months
-    } else if (service.category === 'streaming') {
-        state.subscriptions[service.id] = [0, 1, 10, 11]; // Winter binge
-    } else {
-        // Random selection
-        state.subscriptions[service.id] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].filter(() => Math.random() > 0.5);
-    }
-});
-
-// Generate virtual card data
-services.forEach(service => {
-    state.virtualCards[service.id] = {
-        number: generateCardNumber(),
-        expiry: generateExpiry(),
-        cvv: generateCVV(),
-        frozen: !state.subscriptions[service.id].includes(getCurrentMonth())
-    };
-});
+loadState();
 
 function generateCardNumber() {
     const groups = [];
@@ -182,6 +186,36 @@ function generateExpiry() {
 
 function generateCVV() {
     return Math.floor(100 + Math.random() * 900).toString();
+}
+
+function loadState() {
+    let savedState = null;
+    try {
+        savedState = JSON.parse(localStorage.getItem(storageKey));
+    } catch (error) {
+        savedState = null;
+    }
+
+    services.forEach(service => {
+        const savedMonths = savedState?.subscriptions?.[service.id];
+        state.subscriptions[service.id] = Array.isArray(savedMonths)
+            ? savedMonths.filter(month => Number.isInteger(month) && month >= 0 && month < 12)
+            : [...(defaultMonthPlans[service.id] || [])];
+
+        state.virtualCards[service.id] = {
+            number: savedState?.virtualCards?.[service.id]?.number || generateCardNumber(),
+            expiry: savedState?.virtualCards?.[service.id]?.expiry || generateExpiry(),
+            cvv: savedState?.virtualCards?.[service.id]?.cvv || generateCVV(),
+            frozen: savedState?.virtualCards?.[service.id]?.frozen ?? !state.subscriptions[service.id].includes(getCurrentMonth())
+        };
+    });
+}
+
+function saveState() {
+    localStorage.setItem(storageKey, JSON.stringify({
+        subscriptions: state.subscriptions,
+        virtualCards: state.virtualCards
+    }));
 }
 
 function getCurrentMonth() {
@@ -506,6 +540,7 @@ function toggleMonth(serviceId, monthIndex) {
 
     const currentMonth = getCurrentMonth();
     state.virtualCards[serviceId].frozen = !subs.includes(currentMonth);
+    saveState();
 
     renderCalendar();
     renderHeatmap();
@@ -517,6 +552,7 @@ function toggleMonth(serviceId, monthIndex) {
 function toggleFreeze(serviceId) {
     const card = state.virtualCards[serviceId];
     card.frozen = !card.frozen;
+    saveState();
     renderCards();
     showToast(`Card ${card.frozen ? 'frozen' : 'unfrozen'} for ${services.find(s => s.id === serviceId).name}`);
 }
@@ -674,6 +710,7 @@ document.querySelectorAll('.view-btn').forEach(btn => {
 });
 
 // Initialize
+document.getElementById('calendar-year').textContent = currentYear;
 renderCategoryTabs();
 renderCalendar();
 renderHeatmap();

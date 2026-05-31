@@ -7,6 +7,7 @@ Freezerburn is a small static prototype for planning when subscriptions should b
 - Tracks subscriptions across categories like streaming, software, fitness, news, gaming, and lifestyle.
 - Shows active months and estimated yearly savings.
 - Simulates per-service virtual cards for a more concrete product concept.
+- Saves calendar and card freeze state locally in the browser.
 - Runs entirely in the browser with no backend or build step.
 
 ## Run Locally
