@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freezerburn - Freeze What You Don't Need</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L12 8M12 2L8 6M12 2L16 6"></path>
+                    <path d="M20 12L14 12M20 12L16 8M20 12L16 16"></path>
+                    <path d="M12 22L12 16M12 22L16 18M12 22L8 18"></path>
+                    <path d="M4 12L10 12M4 12L8 16M4 12L8 8"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>Freezerburn</span>
+            </div>
+            <div class="header-stats">
+                <div class="stat">
+                    <span class="stat-value" id="monthly-savings">$0</span>
+                    <span class="stat-label">saved this year</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="active-services">0</span>
+                    <span class="stat-label">active now</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <!-- Category Tabs -->
+            <div class="category-tabs" id="category-tabs">
+                <!-- Populated by JS -->
+            </div>
+
+            <section class="calendar-section">
+                <div class="section-header">
+                    <div>
+                        <h2>2025 Subscription Calendar</h2>
+                        <p class="section-subtitle">Click months to toggle when each subscription is active</p>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="calendar">Services</button>
+                        <button class="view-btn" data-view="heatmap">Spending</button>
+                    </div>
+                </div>
+
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="heatmap-grid" id="heatmap-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+            </section>
+
+            <section class="cards-section">
+                <div class="section-header">
+                    <div>
+                        <h2>Virtual Cards</h2>
+                        <p class="section-subtitle">Each service gets its own card. Frozen cards block charges automatically.</p>
+                    </div>
+                </div>
+                <div class="cards-grid" id="cards-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Service Detail Modal -->
+        <div class="modal-overlay" id="modal-overlay">
+            <div class="modal" id="service-modal">
+                <button class="modal-close" id="modal-close">&times;</button>
+                <div class="modal-content" id="modal-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast">
+            <span class="toast-message" id="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
